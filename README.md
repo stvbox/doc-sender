@@ -9,3 +9,5 @@ Available customization status operations.
 Used the spring sequrity, the hibernate.
 
 As frontand used last angular version.
+
+for start need build docksander backend. All data provide as stubs.
