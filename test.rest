@@ -1,0 +1,97 @@
+GET http://localhost:8080/api/auth/user-info HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+#####################################################
+
+POST http://localhost:8080/login?username=user&password=password HTTP/1.1
+
+#####################################################
+
+POST http://localhost:8080/login-rest HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+username=user&password=password
+#####################################################
+
+POST http://localhost:8080/login HTTP/1.1
+
+{
+	"username": "user",
+	"password": "password"
+}
+#####################################################
+
+GET http://localhost:8080/login HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+#####################################################
+
+GET http://localhost:8080/logout HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+#####################################################
+
+POST http://localhost:8080/login HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Content-Length: 74
+Cache-Control: max-age=0
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+DNT: 1
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36
+Sec-Fetch-Dest: document
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Referer: http://localhost:8080/login?logout
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru,en-US;q=0.9,en;q=0.8
+Cookie: JSESSIONID=3E04B00FDD6DF2563E608C521CCB934E
+
+username=user&password=password&_csrf=55bcef64-676d-4434-8718-1c2a9bb25250
+#####################################################
+
+GET http://localhost:8080/api/document/get-list HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+#####################################################
+
+GET http://localhost:8080/test HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+#####################################################
+
+POST http://localhost:8080/api/document/post HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{"name": "Пробное имя", "pass": "Пробный текст для пароля"}
+#####################################################
+
+POST http://localhost:8080/post HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name1": "Имя пользователя",
+    "pass1": "Пароль пользователя"
+}
+
+#####################################################
+
+POST http://localhost:8080/test-post HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name1": "Имя пользователя",
+    "pass1": "Пароль пользователя"
+}
+
+#####################################################

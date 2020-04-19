@@ -1,0 +1,34 @@
+<div class="d-flex">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div [formGroup]="form"
+					 class="card">
+					<div class="card-header">
+						Форма простого документа для примера
+					</div>
+					<div class="card-body">
+						<div class="form-group">
+							<label for="extendField">Дополнительное поле</label>
+							<input formControlName="extend"
+								   type="email"
+								   class="form-control"
+								   id="extendField"
+								   aria-describedby="extendHelp">
+							<small id="extend"
+								   class="form-text text-muted">Поле расширяющее базовую сущьность.</small>
+						</div>
+						<div class="form-group">
+							<label for="exampleFormControlTextarea">Описание</label>
+							<textarea formControlName="description"
+									  class="form-control"
+									  id="exampleFormControlTextarea"
+									  rows="3"></textarea>
+						</div>
+						<button (click)="sendDocument()">отправить</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

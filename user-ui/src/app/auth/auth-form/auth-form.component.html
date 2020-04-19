@@ -1,0 +1,15 @@
+<div *ngIf="!busyState.isLoading">
+	<form *ngIf="form"
+		  [formGroup]="form"
+		  (ngSubmit)="onSubmit()">
+		<div>Логин: <input formControlName="username"></div>
+		<div>Пароль: <input formControlName="password"></div>
+		<div>
+			<button [disabled]="busyState.isLoading"
+					type="submit">вход</button>
+		</div>
+	</form>
+	<img *ngIf="busyState.isLoading"
+		 src="/assets/images/svg/spinner.svg"
+		 alt="Загрузка...">
+</div>

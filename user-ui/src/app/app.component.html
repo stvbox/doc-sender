@@ -1,0 +1,24 @@
+<h1>{{ title }}</h1>
+
+<nav class="navbar navbar-light"
+	 style="background-color: #e3f2fd;">
+	<a [routerLink]="['/documents']">история документов</a>
+	<a [routerLink]="['/documents/extend']">расширенный документ</a>
+</nav>
+
+<div *ngIf="!busyState.isLoading; else loadingTemplate"
+	 class="work-area-wrapper">
+	<auth-form *ngIf="!isAuthorized"></auth-form>
+	<router-outlet *ngIf="isAuthorized"></router-outlet>
+</div>
+
+<button (click)="reloadUserInfo()">------</button>
+
+<a href="/logout"
+   target="__blank">exit</a>
+
+
+<ng-template #loadingTemplate>
+	<img src="/assets/images/svg/spinner.svg"
+		 alt="Загрузка...">
+</ng-template>
