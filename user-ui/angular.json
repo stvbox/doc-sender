@@ -29,10 +29,13 @@
 							"src/assets/svg/*"
 						],
 						"styles": [
-							"src/styles.scss",
-							"src/bootrstrap.scss"
+							"src/styles/styles.scss",
+							"src/styles/bootrstrap.scss"
 						],
-						"scripts": []
+						"scripts": [
+							"node_modules/jquery/dist/jquery.js",
+							"node_modules/bootstrap/dist/js/bootstrap.js"
+						]
 					},
 					"configurations": {
 						"production": {

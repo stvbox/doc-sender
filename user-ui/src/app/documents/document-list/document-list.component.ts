@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntil, switchMap, map } from 'rxjs/operators';
+import { takeUntil, switchMap, map, filter } from 'rxjs/operators';
 import { BaseComponent } from '../../common/BaseComponent';
 import { DocumentService } from '../document.service';
 import { Subject } from 'rxjs';
+import { isNil } from 'lodash';
 
 const PAGE_SIZE = 5;
 
@@ -27,6 +28,7 @@ export class DocumentListComponent extends BaseComponent implements OnInit {
 	ngOnInit(): void {
 		this.documentsPage.pipe(
 			switchMap((page) => this.documentSvc.getDocuments(page)),
+			filter(({ data }) => data?.length),
 			takeUntil(this.unsubscribe),
 		).subscribe((response) => {
 			const { data: documents, pageNum: page } = response;
@@ -37,7 +39,7 @@ export class DocumentListComponent extends BaseComponent implements OnInit {
 			}
 		});
 
-		this.documentsPage.next(0);
+		this.documentsPage.next(this.currentPage);
 	}
 
 	nextPage() {
