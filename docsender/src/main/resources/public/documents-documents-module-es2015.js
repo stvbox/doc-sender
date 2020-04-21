@@ -142,24 +142,28 @@ function DocumentListComponent_tr_12_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r1.status);
 } }
+const PAGE_SIZE = 5;
 class DocumentListComponent extends _common_BaseComponent__WEBPACK_IMPORTED_MODULE_2__["BaseComponent"] {
     constructor(documentSvc) {
         super();
         this.documentSvc = documentSvc;
         this.currentPage = 0;
+        this.documents = [];
         this.documentsPage = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
     }
     ngOnInit() {
-        this.documentsPage.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["switchMap"])((page) => {
-            return this.documentSvc.getDocuments(page).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])((documents) => ({ documents, page })));
-        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(this.unsubscribe)).subscribe(({ documents, page }) => {
+        this.documentsPage.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["switchMap"])((page) => this.documentSvc.getDocuments(page)), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["filter"])(({ data }) => data === null || data === void 0 ? void 0 : data.length), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(this.unsubscribe)).subscribe((response) => {
+            const { data: documents, pageNum: page } = response;
             this.currentPage = page;
-            this.documents = documents;
+            const offset = PAGE_SIZE * page;
+            for (let i = 0; i < PAGE_SIZE; i++) {
+                this.documents[offset + i] = documents[i];
+            }
         });
-        this.documentsPage.next(0);
+        this.documentsPage.next(this.currentPage);
     }
     nextPage() {
-        this.documentsPage.next(++this.currentPage);
+        this.documentsPage.next(this.currentPage + 1);
     }
 }
 DocumentListComponent.ɵfac = function DocumentListComponent_Factory(t) { return new (t || DocumentListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_document_service__WEBPACK_IMPORTED_MODULE_4__["DocumentService"])); };
@@ -184,11 +188,11 @@ DocumentListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "tbody");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](12, DocumentListComponent_tr_12_Template, 9, 4, "tr", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "button", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function DocumentListComponent_Template_button_click_14_listener() { return ctx.nextPage(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15, "\u043F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0435\u0449\u0435");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
@@ -242,7 +246,7 @@ class DocumentService {
         return this.http.get('/api/document/get-list', params).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["tap"])((response) => console.log(response)), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((error) => {
             console.error(error);
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
-        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])((response) => response.data));
+        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])((response) => response.body));
     }
     postDocument(document) {
         return this.http.post('/api/document/post', document).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])((error) => {

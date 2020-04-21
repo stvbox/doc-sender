@@ -333,6 +333,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
       }
     }
 
+    var PAGE_SIZE = 5;
+
     var DocumentListComponent = /*#__PURE__*/function (_common_BaseComponent2) {
       _inherits(DocumentListComponent, _common_BaseComponent2);
 
@@ -346,6 +348,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
         _this2 = _super2.call(this);
         _this2.documentSvc = documentSvc;
         _this2.currentPage = 0;
+        _this2.documents = [];
         _this2.documentsPage = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
         return _this2;
       }
@@ -356,24 +359,26 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
           var _this3 = this;
 
           this.documentsPage.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["switchMap"])(function (page) {
-            return _this3.documentSvc.getDocuments(page).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (documents) {
-              return {
-                documents: documents,
-                page: page
-              };
-            }));
-          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(this.unsubscribe)).subscribe(function (_ref) {
-            var documents = _ref.documents,
-                page = _ref.page;
+            return _this3.documentSvc.getDocuments(page);
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["filter"])(function (_ref) {
+            var data = _ref.data;
+            return data === null || data === void 0 ? void 0 : data.length;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(this.unsubscribe)).subscribe(function (response) {
+            var documents = response.data,
+                page = response.pageNum;
             _this3.currentPage = page;
-            _this3.documents = documents;
+            var offset = PAGE_SIZE * page;
+
+            for (var i = 0; i < PAGE_SIZE; i++) {
+              _this3.documents[offset + i] = documents[i];
+            }
           });
-          this.documentsPage.next(0);
+          this.documentsPage.next(this.currentPage);
         }
       }, {
         key: "nextPage",
         value: function nextPage() {
-          this.documentsPage.next(++this.currentPage);
+          this.documentsPage.next(this.currentPage + 1);
         }
       }]);
 
@@ -433,6 +438,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "button", 3);
@@ -442,8 +449,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
           });
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15, "\u043F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0435\u0449\u0435");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -548,7 +553,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
             console.error(error);
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
           }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (response) {
-            return response.data;
+            return response.body;
           }));
         }
       }, {

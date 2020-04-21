@@ -1,15 +1,25 @@
-<div *ngIf="!busyState.isLoading">
+<ng-container *ngIf="!busyState.isLoading">
 	<form *ngIf="form"
 		  [formGroup]="form"
-		  (ngSubmit)="onSubmit()">
-		<div>Логин: <input formControlName="username"></div>
-		<div>Пароль: <input formControlName="password"></div>
-		<div>
-			<button [disabled]="busyState.isLoading"
-					type="submit">вход</button>
+		  (ngSubmit)="onSubmit()"
+		  class="auth-form card">
+		<div class="card-body">
+			<div class="forma-row">
+				<div class="caption">Логин:</div>
+				<div class="input"><input formControlName="username"></div>
+			</div>
+			<div class="forma-row">
+				<div class="caption">Пароль:</div>
+				<div class="input"><input formControlName="password"></div>
+			</div>
+			<div class="forma-row-center">
+				<button [disabled]="busyState.isLoading"
+						type="submit"
+						class="btn btn-primary btn-sm">вход</button>
+			</div>
 		</div>
 	</form>
 	<img *ngIf="busyState.isLoading"
 		 src="/assets/images/svg/spinner.svg"
 		 alt="Загрузка...">
-</div>
+</ng-container>

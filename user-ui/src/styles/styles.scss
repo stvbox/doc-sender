@@ -5,5 +5,14 @@ $font-size-base: 2px;
 $line-height-base: 1;
 
 html {
+	height: 100%;
 	font-size: 14px;
+	display: flex;
+	flex-direction: column;
+
+	body {
+		height: 100%;
+		display: flex;
+		flex: 0 0 100%;
+	}
 }

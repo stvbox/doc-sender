@@ -1,48 +1,56 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand"
-	   href="#">
-		<img src="/assets/images/svg/document.svg"
-			 width="30"
-			 height="30"
-			 class="d-inline-block align-top"
-			 alt="">
-		Отправлятор документов
-	</a>
-	<button class="navbar-toggler"
-			type="button"
-			data-toggle="collapse"
-			data-target="#navbarNav"
-			aria-controls="navbarNav"
-			aria-expanded="false"
-			aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse"
-		 id="navbarNav">
-		<ul class="navbar-nav">
-			<li class="nav-item active">
-				<a class="nav-link"
-				   [routerLink]="['/documents']">история документов</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link"
-				   [routerLink]="['/documents/extend']">расширенный документ</a>
-			</li>
-		</ul>
-	</div>
-</nav>
-
-<div *ngIf="!busyState.isLoading; else loadingTemplate"
-	 class="work-area-wrapper">
-	<auth-form *ngIf="!isAuthorized"></auth-form>
-	<router-outlet *ngIf="isAuthorized"></router-outlet>
+<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a [routerLink]="['/']"
+		   class="navbar-brand">
+			<img src="/assets/images/svg/document.svg"
+				 width="30"
+				 height="30"
+				 class="d-inline-block align-top"
+				 alt="">
+			Отправлятор документов
+		</a>
+		<ng-container *ngIf="isAuthorized">
+			<button class="navbar-toggler"
+					type="button"
+					data-toggle="collapse"
+					data-target="#navbarNav"
+					aria-controls="navbarNav"
+					aria-expanded="false"
+					aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse"
+				 id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item active">
+						<a class="nav-link"
+						   [routerLink]="['/documents']">история документов</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link"
+						   [routerLink]="['/documents/extend']">расширенный документ</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link"
+						   href="/logout"
+						   target="__blank">exit</a>
+					</li>
+					<li class="nav-item">
+						<button (click)="reloadUserInfo()">------</button>
+					</li>
+				</ul>
+			</div>
+		</ng-container>
+	</nav>
 </div>
-
-<button (click)="reloadUserInfo()">------</button>
-
-<a href="/logout"
-   target="__blank">exit</a>
-
+<div class="content">
+	<div class="content__inner">
+		<ng-container *ngIf="!busyState.isLoading; else loadingTemplate">
+			<auth-form *ngIf="!isAuthorized"></auth-form>
+			<router-outlet *ngIf="isAuthorized"></router-outlet>
+		</ng-container>
+	</div>
+</div>
 
 <ng-template #loadingTemplate>
 	<img src="/assets/images/svg/spinner.svg"

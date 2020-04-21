@@ -1,10 +1,26 @@
+:host {
+	display: flex;
+	flex: 0 1 100%;
+	flex-direction: column;
+}
+
+.header {
+	flex: auto;
+}
+
+.content {
+	display: flex;
+	flex: 1 1 100%;
+	overflow: hidden;
+
+	.content__inner {
+		flex: 0 0 100%;
+		overflow: scroll;
+	}
+}
 
 .bars {
 	display: flex;
 	flex-direction: column;
 	width: 100px;
-}
-
-.work-area-wrapper {
-	margin: 20px;
 }
