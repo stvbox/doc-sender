@@ -59,15 +59,63 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
     /* harmony import */
 
 
-    var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! lodash */
+    "./node_modules/lodash/lodash.js");
+    /* harmony import */
+
+
+    var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+    /* harmony import */
+
+
+    var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! @angular/forms */
     "./node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
     /* harmony import */
 
 
-    var _document_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var _document_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! ../document.service */
     "./src/app/documents/document.service.ts");
+    /* harmony import */
+
+
+    var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    /*! @angular/common */
+    "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
+
+    function DocumentExtendComponent_button_18_Template(rf, ctx) {
+      if (rf & 1) {
+        var _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 15);
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function DocumentExtendComponent_button_18_Template_button_click_0_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r3);
+
+          var ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+
+          return ctx_r2.sendDocument();
+        });
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "\u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C");
+
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+      }
+    }
+
+    function DocumentExtendComponent_img_19_Template(rf, ctx) {
+      if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "img", 16);
+      }
+    }
+
+    var _c0 = function _c0(a0) {
+      return {
+        "is-invalid": a0
+      };
+    };
 
     var DocumentExtendComponent = /*#__PURE__*/function (_common_BaseComponent) {
       _inherits(DocumentExtendComponent, _common_BaseComponent);
@@ -82,6 +130,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
         _this = _super.call(this);
         _this.fb = fb;
         _this.documentSvc = documentSvc;
+        _this.errors = {};
         return _this;
       }
 
@@ -96,14 +145,40 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
       }, {
         key: "sendDocument",
         value: function sendDocument() {
+          var _this2 = this;
+
+          this.busyState = true;
           var attributes = Object.assign({}, this.form.value);
           var documentType = 'extend';
           this.documentSvc.postExtendDocument({
             attributes: attributes,
             documentType: documentType
-          }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(this.unsubscribe)).subscribe(function (result) {
-            console.log(result);
+          }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["catchError"])(function (errors) {
+            _this2.busyState = false;
+
+            _this2.applyErrors(errors);
+
+            throw errors;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(this.unsubscribe)).subscribe(function (result) {
+            _this2.busyState = false;
+            _this2.sentState = true;
+
+            _this2.applyErrors(null);
           });
+        }
+      }, {
+        key: "applyErrors",
+        value: function applyErrors(errors) {
+          if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isNil"])(errors)) {
+            this.errors = {};
+            return;
+          }
+
+          this.errors = errors.reduce(function (memo, error) {
+            var errorCode = error.code.split('_')[1];
+            memo[errorCode] = true;
+            return memo;
+          }, {});
         }
       }]);
 
@@ -111,7 +186,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
     }(_common_BaseComponent__WEBPACK_IMPORTED_MODULE_2__["BaseComponent"]);
 
     DocumentExtendComponent.ɵfac = function DocumentExtendComponent_Factory(t) {
-      return new (t || DocumentExtendComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_document_service__WEBPACK_IMPORTED_MODULE_4__["DocumentService"]));
+      return new (t || DocumentExtendComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_document_service__WEBPACK_IMPORTED_MODULE_5__["DocumentService"]));
     };
 
     DocumentExtendComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
@@ -119,8 +194,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
       selectors: [["document"]],
       features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵInheritDefinitionFeature"]],
       decls: 20,
-      vars: 1,
-      consts: [[1, "d-flex"], [1, "container"], [1, "row"], [1, "col"], [1, "card", 3, "formGroup"], [1, "card-header"], [1, "card-body"], [1, "form-group"], ["for", "extendField"], ["formControlName", "extend", "type", "email", "id", "extendField", "aria-describedby", "extendHelp", 1, "form-control"], ["id", "extend", 1, "form-text", "text-muted"], ["for", "exampleFormControlTextarea"], ["formControlName", "description", "id", "exampleFormControlTextarea", "rows", "3", 1, "form-control"], [3, "click"]],
+      vars: 9,
+      consts: [[1, "d-flex"], [1, "container"], [1, "row"], [1, "col"], [1, "card", 3, "formGroup"], [1, "card-header"], [1, "card-body"], [1, "form-group"], ["for", "extendField"], ["formControlName", "extend", "type", "email", "id", "extendField", "aria-describedby", "extendHelp", 1, "form-control", 3, "ngClass"], ["id", "extend", 1, "form-text", "text-muted"], ["for", "exampleFormControlTextarea"], ["formControlName", "description", "id", "exampleFormControlTextarea", "rows", "3", 1, "form-control", "is-invalid", 3, "ngClass"], [3, "click", 4, "ngIf"], ["src", "/assets/images/svg/spinner.svg", "alt", "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430...", 4, "ngIf"], [3, "click"], ["src", "/assets/images/svg/spinner.svg", "alt", "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430..."]],
       template: function DocumentExtendComponent_Template(rf, ctx) {
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -171,15 +246,9 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "button", 13);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](18, DocumentExtendComponent_button_18_Template, 2, 0, "button", 13);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function DocumentExtendComponent_Template_button_click_18_listener() {
-            return ctx.sendDocument();
-          });
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](19, "\u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](19, DocumentExtendComponent_img_19_Template, 1, 0, "img", 14);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -198,9 +267,25 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("formGroup", ctx.form);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngClass", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](5, _c0, ctx.errors["extend"]));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngClass", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](7, _c0, ctx.errors["description"]));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx.busyState);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.busyState);
         }
       },
-      directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormGroupDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControlName"]],
+      directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormGroupDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControlName"], _angular_common__WEBPACK_IMPORTED_MODULE_6__["NgClass"], _angular_common__WEBPACK_IMPORTED_MODULE_6__["NgIf"]],
       styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2RvY3VtZW50cy9kb2N1bWVudC1leHRlbmQvZG9jdW1lbnQtZXh0ZW5kLmNvbXBvbmVudC5zY3NzIn0= */"]
     });
     /*@__PURE__*/
@@ -215,9 +300,9 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
         }]
       }], function () {
         return [{
-          type: _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"]
+          type: _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"]
         }, {
-          type: _document_service__WEBPACK_IMPORTED_MODULE_4__["DocumentService"]
+          type: _document_service__WEBPACK_IMPORTED_MODULE_5__["DocumentService"]
         }];
       }, null);
     })();
@@ -313,23 +398,23 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
       }
 
       if (rf & 2) {
-        var document_r1 = ctx.$implicit;
+        var document_r5 = ctx.$implicit;
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r1.id);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r5.id);
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r1.created);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r5.created);
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r1.description);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r5.description);
 
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r1.status);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](document_r5.status);
       }
     }
 
@@ -341,36 +426,36 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
       var _super2 = _createSuper(DocumentListComponent);
 
       function DocumentListComponent(documentSvc) {
-        var _this2;
+        var _this3;
 
         _classCallCheck(this, DocumentListComponent);
 
-        _this2 = _super2.call(this);
-        _this2.documentSvc = documentSvc;
-        _this2.currentPage = 0;
-        _this2.documents = [];
-        _this2.documentsPage = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
-        return _this2;
+        _this3 = _super2.call(this);
+        _this3.documentSvc = documentSvc;
+        _this3.currentPage = 0;
+        _this3.documents = [];
+        _this3.documentsPage = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
+        return _this3;
       }
 
       _createClass(DocumentListComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this3 = this;
+          var _this4 = this;
 
           this.documentsPage.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["switchMap"])(function (page) {
-            return _this3.documentSvc.getDocuments(page);
+            return _this4.documentSvc.getDocuments(page);
           }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["filter"])(function (_ref) {
             var data = _ref.data;
             return data === null || data === void 0 ? void 0 : data.length;
           }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(this.unsubscribe)).subscribe(function (response) {
             var documents = response.data,
                 page = response.pageNum;
-            _this3.currentPage = page;
+            _this4.currentPage = page;
             var offset = PAGE_SIZE * page;
 
             for (var i = 0; i < PAGE_SIZE; i++) {
-              _this3.documents[offset + i] = documents[i];
+              _this4.documents[offset + i] = documents[i];
             }
           });
           this.documentsPage.next(this.currentPage);
@@ -573,7 +658,13 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
             console.error(error);
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(null);
           }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (response) {
-            return response.data;
+            var _a;
+
+            if ((_a = response === null || response === void 0 ? void 0 : response.data) === null || _a === void 0 ? void 0 : _a.errors) {
+              throw response.data.errors;
+            }
+
+            return response === null || response === void 0 ? void 0 : response.data;
           }));
         }
       }]);
@@ -664,14 +755,14 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
       var _super3 = _createSuper(DocumentComponent);
 
       function DocumentComponent(documentSvc) {
-        var _this4;
+        var _this5;
 
         _classCallCheck(this, DocumentComponent);
 
-        _this4 = _super3.call(this);
-        _this4.documentSvc = documentSvc;
-        _this4.descriptionText = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]();
-        return _this4;
+        _this5 = _super3.call(this);
+        _this5.documentSvc = documentSvc;
+        _this5.descriptionText = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]();
+        return _this5;
       }
 
       _createClass(DocumentComponent, [{

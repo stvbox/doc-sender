@@ -2,7 +2,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<div [formGroup]="form"
+				<div *ngIf="!sentState"
+					 [formGroup]="form"
 					 class="card">
 					<div class="card-header">
 						Форма простого документа для примера
@@ -11,6 +12,7 @@
 						<div class="form-group">
 							<label for="extendField">Дополнительное поле</label>
 							<input formControlName="extend"
+								   [ngClass]="{ 'is-invalid': errors['extend'] }"
 								   type="email"
 								   class="form-control"
 								   id="extendField"
@@ -21,12 +23,20 @@
 						<div class="form-group">
 							<label for="exampleFormControlTextarea">Описание</label>
 							<textarea formControlName="description"
-									  class="form-control"
+									  [ngClass]="{ 'is-invalid': errors['description'] }"
+									  class="form-control is-invalid"
 									  id="exampleFormControlTextarea"
 									  rows="3"></textarea>
 						</div>
-						<button (click)="sendDocument()">отправить</button>
+						<button *ngIf="!this.busyState"
+								(click)="sendDocument()">отправить</button>
+						<img *ngIf="this.busyState"
+							 src="/assets/images/svg/spinner.svg"
+							 alt="Загрузка...">
 					</div>
+				</div>
+				<div *ngIf="sentState">
+					Документ отправлен
 				</div>
 			</div>
 		</div>

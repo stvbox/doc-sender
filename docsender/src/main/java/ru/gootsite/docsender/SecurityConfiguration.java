@@ -48,13 +48,7 @@ public class SecurityConfiguration {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            //http.antMatcher("/").authorizeRequests().anyRequest().permitAll();
-            //http.antMatcher("/h2-console/").authorizeRequests().anyRequest().permitAll();
-
-            //http.csrf().disable();
-            //http.headers().frameOptions().disable();
             http
-                    //.headers().frameOptions().disable().and()
                     .csrf().disable()
                     .authorizeRequests().antMatchers("/api/**").authenticated()
                     .and()
@@ -63,30 +57,6 @@ public class SecurityConfiguration {
                     .loginProcessingUrl("/login-rest")
                     .defaultSuccessUrl("/api/auth/user-info")
                     .usernameParameter("username").passwordParameter("password");
-
-            /*
-            super.configure(http);
-            /*http.antMatcher("/")
-                    .authorizeRequests()
-                    .antMatchers("/public/**").permitAll()
-                    .antMatchers("/resources/**").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                    .formLogin().loginPage("/login").permitAll()
-                    .and()
-                    .logout().permitAll();*/
-            //http.authorizeRequests().anyRequest();
-
-            /*http.authorizeRequests().antMatchers("/").permitAll().and()
-                    .authorizeRequests().antMatchers("/console/**").permitAll();*/
-            //http.csrf().disable();
-            //http.headers().frameOptions().disable();
-            /*http
-                    .antMatcher("*")
-                    .authorizeRequests(authorize -> authorize
-                    .anyRequest().permitAll());*/
-            //super.configure(http);
-            //http.csrf().disable();
         }
 
     }

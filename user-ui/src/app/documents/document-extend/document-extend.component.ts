@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { DocumentService } from '../document.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, catchError } from 'rxjs/operators';
 import { BaseComponent } from '../../common/BaseComponent';
+import { never } from 'rxjs';
+import { isNil } from 'lodash';
+
+interface FormError {
+	code: String;
+}
 
 @Component({
 	selector: 'document',
@@ -11,6 +17,9 @@ import { BaseComponent } from '../../common/BaseComponent';
 })
 export class DocumentExtendComponent extends BaseComponent implements OnInit {
 	form: FormGroup;
+	sentState: boolean;
+	busyState: boolean;
+	errors = {};
 
 	constructor(
 		private fb: FormBuilder,
@@ -27,13 +36,36 @@ export class DocumentExtendComponent extends BaseComponent implements OnInit {
 	}
 
 	sendDocument() {
+		this.busyState = true;
 		const attributes = { ...this.form.value };
 		const documentType = 'extend';
 		this.documentSvc.postExtendDocument({ attributes, documentType }).pipe(
+			catchError((errors) => {
+				this.busyState = false;
+				this.applyErrors(errors);
+				throw (errors);
+			}),
 			takeUntil(this.unsubscribe),
 		).subscribe((result) => {
-			console.log(result);
+			this.busyState = false;
+			this.sentState = true;
+			this.applyErrors(null);
 		});
+	}
+
+	applyErrors(errors: Array<FormError>) {
+
+		if (isNil(errors)) {
+			this.errors = {};
+			return;
+		}
+
+		this.errors = errors.reduce((memo, error) => {
+			const errorCode = error.code.split('_')[1];
+			memo[errorCode] = true;
+			return memo;
+		}, {});
+
 	}
 
 }

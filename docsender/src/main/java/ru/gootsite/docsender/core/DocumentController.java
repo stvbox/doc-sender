@@ -1,4 +1,4 @@
-package ru.gootsite.docsender.base;
+package ru.gootsite.docsender.core;
 
 import java.security.Principal;
 import java.util.List;
@@ -9,16 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.gootsite.docsender.core.BaseDocument;
-import ru.gootsite.docsender.core.DocumentDto;
-import ru.gootsite.docsender.core.DocumentRepository;
-import ru.gootsite.docsender.core.PostResult;
-import ru.gootsite.docsender.core.Response;
 
 @RestController
 @RequestMapping("/api/document")
@@ -38,13 +31,5 @@ public class DocumentController {
         List<BaseDocument> documents = repository.findAllByCreatedBy("user", page);
         boolean hasMoreDocunets = documents != null;
         return new Response(documents, pageNum, hasMoreDocunets);
-    }
-
-    @PostMapping("post")
-    Response<PostResult> postDocument(@RequestBody DocumentDto model) {
-        SimpleDocument document = new SimpleDocument();
-        document.setDescription(model.getAttributes().get("description"));
-        document = repository.save(document);
-        return new Response(new PostResult(document.getId()));
     }
 }

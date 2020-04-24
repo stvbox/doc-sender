@@ -35,14 +35,12 @@
 						   href="/logout"
 						   target="__blank">exit</a>
 					</li>
-					<li class="nav-item">
-						<button (click)="reloadUserInfo()">------</button>
-					</li>
 				</ul>
 			</div>
 		</ng-container>
 	</nav>
 </div>
+
 <div class="content">
 	<div class="content__inner">
 		<ng-container *ngIf="!busyState.isLoading; else loadingTemplate">
@@ -53,6 +51,8 @@
 </div>
 
 <ng-template #loadingTemplate>
-	<img src="/assets/images/svg/spinner.svg"
-		 alt="Загрузка...">
+	<div class="spiner">
+		<img src="/assets/images/svg/spinner.svg"
+			 alt="Загрузка...">
+	</div>
 </ng-template>

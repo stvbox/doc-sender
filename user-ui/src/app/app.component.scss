@@ -14,9 +14,16 @@
 	overflow: hidden;
 
 	.content__inner {
+		display: flex;
 		flex: 0 0 100%;
 		overflow: scroll;
+		flex-direction: column;
 	}
+}
+
+.spiner {
+	display: flex;
+	justify-content: center;
 }
 
 .bars {

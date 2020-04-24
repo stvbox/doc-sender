@@ -58,7 +58,12 @@ export class DocumentService {
 				console.error(error);
 				return of(null);
 			}),
-			map((response) => response.data),
+			map((response) => {
+				if (response?.data?.errors) {
+					throw (response.data.errors);
+				}
+				return response?.data;
+			}),
 		);
 	}
 

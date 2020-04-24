@@ -29,11 +29,15 @@ export class AuthService {
 		const body = `username=${auth.username}&password=${auth.password}`;
 		const request = new HttpRequest('POST', '/login-rest', body, { headers });
 		this.http.request(request).pipe(
-			catchError((error) => of(null)),
+			catchError((error) => {
+				this.busyState.isLoading = false;
+				throw error;
+			}),
 		).subscribe((event) => {
 			const response = (event as HttpResponse<any>);
 			if (response?.status == 200) {
-				this.setUserInfo(response.body.data);
+				this.setUserInfo(response.body?.data);
+				this.busyState.isLoading = false;
 			}
 		});
 	}

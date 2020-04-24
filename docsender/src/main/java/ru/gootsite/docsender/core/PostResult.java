@@ -1,23 +1,34 @@
 package ru.gootsite.docsender.core;
 
+import java.util.List;
+
 public class PostResult {
 
-    Long id;
+    String id;
+    List<ControlError> errors;
 
-    PostResult(long id) {
+    PostResult(String id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public PostResult(List<ControlError> errors) {
+        this.errors = errors;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public PostResult(Long id) {
-        this.id = id;
+    public List<ControlError> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<ControlError> errors) {
+        this.errors = errors;
     }
 
 }
